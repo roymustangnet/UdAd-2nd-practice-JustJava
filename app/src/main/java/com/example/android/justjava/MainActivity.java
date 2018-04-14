@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 //        display(quantity);
 //        displayPrice(quantity * 5);
         int price = quantity * 5;
-        String displayMessage = "Total $" + price;
+        String displayMessage = "Total: $" + price;
         displayMessage += "\nThank you!";
         displayMessage(displayMessage);
     }
