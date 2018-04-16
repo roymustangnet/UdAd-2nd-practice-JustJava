@@ -34,14 +34,18 @@ public class MainActivity extends AppCompatActivity {
         CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
         boolean hasWhippedCreamCheckBox = whippedCreamCheckBox.isChecked();
 
+        CheckBox chocolateCheckbox = (CheckBox) findViewById(R.id.chocolate_checkbox);
+        boolean hasChocolateCheckBox = chocolateCheckbox.isChecked();
+
         int price = calculatePrice();
-        String displayMessage = createOrderSummary(price, hasWhippedCreamCheckBox);
+        String displayMessage = createOrderSummary(price, hasWhippedCreamCheckBox, hasChocolateCheckBox);
         displayMessage(displayMessage);
     }
 
-    private String createOrderSummary(int price, boolean addWhippedCreamCheckBox) {
+    private String createOrderSummary(int price, boolean addWhippedCreamCheckBox, boolean addChocolate) {
         String displayMessage = "Name: Lyla the Labyrinth";
         displayMessage += "\nAdd whipped cream? " + addWhippedCreamCheckBox;
+        displayMessage += "\nAdd chocolate? " + addChocolate;
         displayMessage += "\nQuantity: " + quantity;
         displayMessage += "\nTotal: $" + price;
         displayMessage += "\nThank you!";
