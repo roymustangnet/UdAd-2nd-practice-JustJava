@@ -7,14 +7,12 @@ package com.example.android.justjava;
  * package com.example.android.justjava;
  */
 
-import android.hardware.display.DisplayManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
-
-import java.text.NumberFormat;
 
 /**
  * This app displays an order form to order coffee.
@@ -31,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
+        EditText userNameEditText = (EditText) findViewById(R.id.name_field);
+        String value = userNameEditText.getText().toString();
+
         CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
         boolean hasWhippedCreamCheckBox = whippedCreamCheckBox.isChecked();
 
@@ -38,12 +39,12 @@ public class MainActivity extends AppCompatActivity {
         boolean hasChocolateCheckBox = chocolateCheckbox.isChecked();
 
         int price = calculatePrice();
-        String displayMessage = createOrderSummary(price, hasWhippedCreamCheckBox, hasChocolateCheckBox);
+        String displayMessage = createOrderSummary(price, hasWhippedCreamCheckBox, hasChocolateCheckBox, value);
         displayMessage(displayMessage);
     }
 
-    private String createOrderSummary(int price, boolean addWhippedCreamCheckBox, boolean addChocolate) {
-        String displayMessage = "Name: Lyla the Labyrinth";
+    private String createOrderSummary(int price, boolean addWhippedCreamCheckBox, boolean addChocolate, String name) {
+        String displayMessage = "Name: " + name;
         displayMessage += "\nAdd whipped cream? " + addWhippedCreamCheckBox;
         displayMessage += "\nAdd chocolate? " + addChocolate;
         displayMessage += "\nQuantity: " + quantity;
