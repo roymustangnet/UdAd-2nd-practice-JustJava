@@ -11,6 +11,7 @@ import android.hardware.display.DisplayManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -30,13 +31,24 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-//        display(quantity);
-//        displayPrice(quantity * 5);
-        int price = quantity * 5;
-        String displayMessage = "Total: $" + price;
-        displayMessage += "\nThank you!";
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
+        boolean hasWhippedCreamCheckBox = whippedCreamCheckBox.isChecked();
+
+        int price = calculatePrice();
+        String displayMessage = createOrderSummary(price, hasWhippedCreamCheckBox);
         displayMessage(displayMessage);
     }
+
+    private String createOrderSummary(int price, boolean addWhippedCreamCheckBox) {
+        String displayMessage = "Name: Lyla the Labyrinth";
+        displayMessage += "\nAdd whipped cream? " + addWhippedCreamCheckBox;
+        displayMessage += "\nQuantity: " + quantity;
+        displayMessage += "\nTotal: $" + price;
+        displayMessage += "\nThank you!";
+        return displayMessage;
+    }
+
+    private int calculatePrice(){return quantity * 5;}
 
     /**
      * This method displays the given quantity value on the screen.
@@ -46,13 +58,6 @@ public class MainActivity extends AppCompatActivity {
         quantityTextView.setText("" + number);
     }
 
-    /**
-     * This method displays the given price on the screen.
-     */
-    private void displayPrice(int number) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
-    }
 
     public void increment(View view) {
         quantity ++;
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
      * This method displays the given text on the screen.
      */
     private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(message);
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        orderSummaryTextView.setText(message);
     }
 }
