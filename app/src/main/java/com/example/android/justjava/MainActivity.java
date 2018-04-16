@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         CheckBox chocolateCheckbox = (CheckBox) findViewById(R.id.chocolate_checkbox);
         boolean hasChocolateCheckBox = chocolateCheckbox.isChecked();
 
-        int price = calculatePrice();
+        int price = calculatePrice(hasWhippedCreamCheckBox, hasChocolateCheckBox);
         String displayMessage = createOrderSummary(price, hasWhippedCreamCheckBox, hasChocolateCheckBox, value);
         displayMessage(displayMessage);
     }
@@ -53,7 +53,14 @@ public class MainActivity extends AppCompatActivity {
         return displayMessage;
     }
 
-    private int calculatePrice(){return quantity * 5;}
+    private int calculatePrice(boolean addWhippedCreamCheckBox, boolean addChocolateCheckBox){
+        int singlePrice = 5;
+        if (addWhippedCreamCheckBox)
+            singlePrice += 1;
+        if (addChocolateCheckBox)
+            singlePrice += 2;
+        return quantity * singlePrice;
+    }
 
     /**
      * This method displays the given quantity value on the screen.
