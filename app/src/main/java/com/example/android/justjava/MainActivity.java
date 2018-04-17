@@ -7,6 +7,8 @@ package com.example.android.justjava;
  * package com.example.android.justjava;
  */
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void submitOrder(View view) {
         EditText userNameEditText = (EditText) findViewById(R.id.name_field);
-        String value = userNameEditText.getText().toString();
+        String name = userNameEditText.getText().toString();
 
         CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
         boolean hasWhippedCreamCheckBox = whippedCreamCheckBox.isChecked();
@@ -39,8 +41,17 @@ public class MainActivity extends AppCompatActivity {
         boolean hasChocolateCheckBox = chocolateCheckbox.isChecked();
 
         int price = calculatePrice(hasWhippedCreamCheckBox, hasChocolateCheckBox);
-        String displayMessage = createOrderSummary(price, hasWhippedCreamCheckBox, hasChocolateCheckBox, value);
-        displayMessage(displayMessage);
+        String displayMessage = createOrderSummary(price, hasWhippedCreamCheckBox, hasChocolateCheckBox, name);
+
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Just Java for " + name);
+        intent.putExtra(Intent.EXTRA_TEXT, displayMessage);
+        if(intent.resolveActivity(getPackageManager()) != null)
+            startActivity(intent);
+
+//        displayMessage(displayMessage);
     }
 
     private String createOrderSummary(int price, boolean addWhippedCreamCheckBox, boolean addChocolate, String name) {
@@ -54,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int calculatePrice(boolean addWhippedCreamCheckBox, boolean addChocolateCheckBox){
-        int singlePrice = 5;
+        int basePrice = 5;
         if (addWhippedCreamCheckBox)
-            singlePrice += 1;
+            basePrice += 1;
         if (addChocolateCheckBox)
-            singlePrice += 2;
-        return quantity * singlePrice;
+            basePrice += 2;
+        return quantity * basePrice;
     }
 
     /**
@@ -77,15 +88,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void decrement(View view) {
-        quantity --;
+        if (quantity > 0)
+            quantity --;
         display(quantity);
-    }
-
-    /**
-     * This method displays the given text on the screen.
-     */
-    private void displayMessage(String message) {
-        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
-        orderSummaryTextView.setText(message);
     }
 }
